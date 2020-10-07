@@ -21,4 +21,10 @@ export type TabCatalogParamList = {
 
 export type TabProfileParamList = {
   TabProfileScreen: undefined;
+  AboutScreen: undefined;
+  DialogsScreen: undefined;
+  ChatScreen: undefined;
+  RecipesScreen: undefined;
+  FollowerScreen: undefined;
+  FollowingScreen: undefined;
 };
