@@ -1,8 +1,6 @@
 import Axios from "axios"
-import { SIGN_IN_URL } from "../constants/Common"
-export interface SignInResponse {
-    data: SignInData
-  }
+import { GET_POSTS_URL, SIGN_IN_URL } from "../constants/Common"
+
   
 export interface SignInData {
     token?: string
@@ -15,6 +13,18 @@ export interface ServerError {
     message: string,
     data: any
   }
+export interface Post {
+  "id":number,
+  "date":string,
+  "modified":string,
+  "slug":string,
+  "status":string,
+  "type":string,
+  "title":any,
+  "content":string,
+  "categories":Array<number>,
+  "_embedded": any
+}
   
 export class REST{
     static signIn (username:string,password:string):Promise<SignInData> {
@@ -31,5 +41,16 @@ export class REST{
           return response.data
         })
     }
+    static getPosts ():Promise<Array<Post>> {
+      return Axios
+      .request<Array<Post>>({
+        url: GET_POSTS_URL,
+        method: "GET",
+      })
+      .then((response) => {
+        return response.data
+      })
+  }
+  
     
 }
