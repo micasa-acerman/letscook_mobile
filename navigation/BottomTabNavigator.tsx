@@ -3,13 +3,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 
-import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import HomeScreen from '../screens/HomeScreen';
 import CatalogScreen from '../screens/CatalogScreen';
 import { BottomTabParamList, TabHomeParamList, TabCatalogParamList, TabProfileParamList } from '../types';
-import SignInScreen from '../screens/SignInScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import AboutScreen from '../screens/AboutScreen';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -19,32 +18,31 @@ export default function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Home"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      tabBarOptions={{ activeTintColor: '#EB5757' }}>
       <BottomTab.Screen
         name="Home"
         component={TabHomeNavigation}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-home" color={color}/>,
         }}
       />
       <BottomTab.Screen
         name="Catalog"
         component={TabCatalogNavigation}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-albums" color={color} />,
         }}
       />
       <BottomTab.Screen
         name="Profile"
         component={TabProfileNavigation}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="ios-information-circle" color={color} />,
         }}
       ></BottomTab.Screen>
     </BottomTab.Navigator>
   );
 }
-
 // You can explore the built-in icon families and icons on the web at:
 // https://icons.expo.fyi/
 function TabBarIcon(props: { name: string; color: string }) {
@@ -67,17 +65,17 @@ function TabHomeNavigation() {
   );
 }
 
-const TabTwoStack = createStackNavigator<TabCatalogParamList>();
+const TabCatalogStack = createStackNavigator<TabCatalogParamList>();
 
 function TabCatalogNavigation() {
   return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
+    <TabCatalogStack.Navigator>
+      <TabCatalogStack.Screen
         name="TabCatalogScreen"
         component={CatalogScreen}
         options={{ headerTitle: 'Catalog' }}
       />
-    </TabTwoStack.Navigator>
+    </TabCatalogStack.Navigator>
   );
 }
 const TabProfileStack = createStackNavigator<TabProfileParamList>();
@@ -87,8 +85,13 @@ function TabProfileNavigation() {
     <TabProfileStack.Navigator>
       <TabProfileStack.Screen
         name="TabProfileScreen"
-        component={ ProfileScreen }
-        options={{ headerTitle: 'Profile' }}
+        component={ProfileScreen}
+        options={{ headerTitle: "Profile" }}
+      />
+      <TabProfileStack.Screen
+        name="AboutScreen"
+        component={AboutScreen}
+        options={{ headerTitle: "About" }}
       />
     </TabProfileStack.Navigator>
   );
