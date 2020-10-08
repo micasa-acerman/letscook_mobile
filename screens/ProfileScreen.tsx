@@ -1,77 +1,111 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
-import { FlatList, TouchableHighlight } from 'react-native-gesture-handler'
+import { Image, ImageProps, StyleSheet, Text, View } from 'react-native'
+import { FlatList, TouchableHighlight, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
 
 interface ProfileItemType {
     key: string,
     title: string,
-    iconPath: string
+    icon: any,
+    navigate: string
 }
 
 
-const PROFILE_ITEMS:Array<ProfileItemType> = [
-    {
-        key:'recipes',
-        title:'My recipes',
-        iconPath:'none'
-    },
-    {
-        key:'messages',
-        title:'My messages',
-        iconPath:'none'
-    },
-    {
-        key:'followers',
-        title:'Followers',
-        iconPath:'none'
-    },
-    {
-        key:'following',
-        title:'Following',
-        iconPath:'none'
-    },
-    {
-        key:'about',
-        title:'About',
-        iconPath:'none'
-    },
-    {
-        key:'logout',
-        title:'Log out',
-        iconPath:'none'
+
+export default function ProfileScreen({navigation}:{navigation:any}) {
+    
+const PROFILE_ITEMS: Array<ProfileItemType> = [
+  {
+    key: "recipes",
+    title: "My recipes",
+    icon: require("../assets/images/ic_recipes.png"),
+    navigate: "",
+  },
+  {
+      key:'messages',
+      title:'My messages',
+      icon:require('../assets/images/ic_messages.png'),
+      navigate: ''
+  },
+  {
+      key:'followers',
+      title:'Followers',
+      icon:require('../assets/images/ic_followers.png'),
+      navigate: ''
+  },
+  {
+      key:'following',
+      title:'Following',
+      icon:require('../assets/images/ic_following.png'),
+      navigate: ''
+  },
+  {
+      key:'about',
+      title:'About',
+      icon:require('../assets/images/ic_info.png'),
+      navigate: 'AboutScreen'
+  },
+  {
+      key:'logout',
+      title:'Log out',
+      icon:require('../assets/images/ic_logout.png'),
+      navigate: ''
+  }
+]; 
+
+    const ProfileItem = ({item}:{item:ProfileItemType})=>{
+      return (
+        <>
+          <TouchableHighlight
+            style={styles.listTouchable}
+            activeOpacity={0.8} 
+            underlayColor="#eaeaea"
+            onPress={() => {
+              navigation.navigate(item.navigate);
+            }}
+          >
+            <View style={styles.listWrap}>
+              <Image style={styles.listIcon} source={item.icon} />
+              <Text style={styles.listText}>{item.title}</Text>
+            </View>
+          </TouchableHighlight>
+        </>
+      );
     }
 
-] 
-const ProfileItem = ({item}:{item:ProfileItemType})=>{
     return (
-      <TouchableHighlight style={styles.listTouchable} activeOpacity={0.2} underlayColor="#f00">
-        <Text style={styles.listText}>{item.title}</Text>
-      </TouchableHighlight>
-    );
-  }
-
-
-export default function ProfileScreen() {
-
-
-    return (
-        <View style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.header}>
-            <Image style={styles.avatar} source={require('../assets/images/_avatar.png')} />
-            <View style={styles.profileInfo}>
-                <Text style={styles.profileName}>Anastasia Taylor</Text>
-                <Text style={styles.profileRole}>Moderator</Text>
-            </View>
+          <Image
+            style={styles.avatar}
+            source={require("../assets/images/_avatar.png")}
+          />
+          <View style={styles.profileInfo}>
+            <Text style={styles.profileName}>Anastasia Taylor</Text>
+            <Text style={styles.profileRole}>Moderator</Text>
+          </View>
         </View>
         <View style={styles.listContainer}>
-            <FlatList data={PROFILE_ITEMS} renderItem={ProfileItem} keyExtractor={item=>item.key} />
+          <FlatList
+            data={PROFILE_ITEMS}
+            renderItem={ProfileItem}
+            keyExtractor={(item) => item.title}
+          />
         </View>
-        </View>
-    )
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({
+    listIcon:{
+        width: 18,
+        height: 18,
+        marginRight: 10
+    },
+    listWrap:{
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
     listContainer:{
         marginTop: 30
     },
@@ -80,7 +114,7 @@ const styles = StyleSheet.create({
     },
     listText:{
         fontSize: 16,
-        fontFamily: 'aqua-medium',
+        fontFamily: 'aqua', // aqua-medium
         color: '#828282'
     },
     container:{
