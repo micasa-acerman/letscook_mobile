@@ -9,6 +9,7 @@ import CatalogScreen from '../screens/CatalogScreen';
 import { BottomTabParamList, TabHomeParamList, TabCatalogParamList, TabProfileParamList } from '../types';
 import ProfileScreen from '../screens/ProfileScreen';
 import AboutScreen from '../screens/AboutScreen';
+import RecipeScreen from '../screens/RecipeScreen';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -60,6 +61,11 @@ function TabHomeNavigation() {
         name="TabHomeScreen"
         component={HomeScreen}
         options={{ headerTitle: 'Home' }}
+      />
+      <TabHomeStack.Screen 
+        name="RecipeScreen"
+        component={RecipeScreen}
+        options={{ headerTitle:'Recipe'}}
       />
     </TabHomeStack.Navigator>
   );
