@@ -30,10 +30,13 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
+    "react-native-autoheight-webview": "^1.5.4",
     "react-native-gesture-handler": "~1.7.0",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
-    "react-native-web": "~0.12.3"
+    "react-native-svg": "12.1.0",
+    "react-native-web": "~0.12.3",
+    "react-native-webview": "10.7.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
