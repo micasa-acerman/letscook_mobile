@@ -6,7 +6,6 @@ import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 
 export default function TabTwoScreen({navigation}:{navigation:any}) {
-  console.log(navigation)
   return (
     <View style={styles.container}>
       <TouchableHighlight onPress={()=>{navigation.navigate('SignInScreen')}}>

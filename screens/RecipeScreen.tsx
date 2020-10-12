@@ -2,16 +2,16 @@ import React, { useState } from 'react'
 import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import AutoHeightWebView from 'react-native-autoheight-webview'
-import { Category, Post } from '../api'
 import TagList from '../components/TagList';
-
+import Category from '../models/Category';
+import Post from '../models/Post';
 
 const jsInject = `
-document.addEventListener('DOMContentLoaded',()=>{
-  window.postMessage(document.documentElement.scrollHeight)
-});
-true;
-`
+    document.addEventListener('DOMContentLoaded',()=>{
+      window.postMessage(document.documentElement.scrollHeight)
+    });
+    true;
+    `
 
 export default function RecipeScreen({route,navigation}:{route:any,navigation:any}) {
   const { post }: { post: Post } = route.params;
@@ -67,7 +67,6 @@ export default function RecipeScreen({route,navigation}:{route:any,navigation:an
             html: content,
           }}
           scalesPageToFit={false}
-          viewportContent={"width=device-width, user-scalable=no"}
         />
       </View>
     </ScrollView>
