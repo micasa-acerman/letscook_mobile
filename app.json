@@ -25,7 +25,10 @@
       "favicon": "./assets/images/favicon.png"
     },
     "android": {
-      "package": "com.micasa.letscook"
+      "package": "com.micasa.letscook",
+      "splash": {
+        "backgroundColor": "#EB5757"
+      }
     }
   }
 }
