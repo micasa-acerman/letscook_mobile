@@ -10,6 +10,9 @@ import { BottomTabParamList, TabHomeParamList, TabCatalogParamList, TabProfilePa
 import ProfileScreen from '../screens/ProfileScreen';
 import AboutScreen from '../screens/AboutScreen';
 import RecipeScreen from '../screens/RecipeScreen';
+import MyRecipesScreen from '../screens/MyRecipesScreen';
+import DialogsScreen from '../screens/DialogsScreen';
+import ChatScreen from '../screens/ChatScreen';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -99,6 +102,25 @@ function TabProfileNavigation() {
         component={AboutScreen}
         options={{ headerTitle: "About" }}
       />
+      <TabProfileStack.Screen
+        name="MyRecipesScreen"
+        component={MyRecipesScreen}
+        options={{ headerTitle: "My recipes" }}
+        />
+      <TabProfileStack.Screen
+        name="RecipeScreen"
+        component={RecipeScreen}
+        options={{ headerTitle: "Recipe" }}
+        />
+        <TabProfileStack.Screen
+          name="DialogsScreen"
+          component={DialogsScreen}
+          options={{ headerTitle: "Dialogs" }}
+          />
+        <TabProfileStack.Screen
+          name="ChatScreen"
+          component={ChatScreen}
+          />
     </TabProfileStack.Navigator>
   );
 }
