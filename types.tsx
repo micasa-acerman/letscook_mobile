@@ -25,7 +25,8 @@ export type TabProfileParamList = {
   AboutScreen: undefined;
   DialogsScreen: undefined;
   ChatScreen: undefined;
-  RecipesScreen: undefined;
+  MyRecipesScreen: undefined;
   FollowerScreen: undefined;
   FollowingScreen: undefined;
+  RecipeScreen: undefined;
 };
