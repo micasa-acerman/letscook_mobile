@@ -19,6 +19,7 @@ function TextField({icon,placeholder='Placeholder',padding=20,children='',onChan
           <TextInput
             style={styles.input}
             placeholder={placeholder}
+            placeholderTextColor='#aeaeae'
             underlineColorAndroid="transparent"
             value={children}
             onChangeText={onChangeText}
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginLeft: 10,
-    fontSize: 22,
+    fontSize: 20,
     color: "#eaeaea",
     borderWidth: 0,
     fontFamily: 'aqua',
