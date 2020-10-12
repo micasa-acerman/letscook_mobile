@@ -29,7 +29,6 @@ export default function ProfileScreen({navigation}:{navigation:any}) {
       })
       .catch((e) => console.error(e));
   }, []);
-  
 const PROFILE_ITEMS: Array<ProfileItemType> = [
   {
     key: "recipes",
@@ -120,9 +119,9 @@ const PROFILE_ITEMS: Array<ProfileItemType> = [
 
 const styles = StyleSheet.create({
     listIcon:{
-        width: 18,
-        height: 18,
-        marginRight: 10
+        width: 22,
+        height: 22,
+        marginRight: 14
     },
     listWrap:{
         flexDirection: 'row',
@@ -132,10 +131,12 @@ const styles = StyleSheet.create({
         marginTop: 20
     },
     listTouchable:{
-        padding: 10
+        paddingTop: 10,
+        paddingBottom: 10,
+        paddingLeft: 4
     },
     listText:{
-        fontSize: 16,
+        fontSize: 18,
         fontFamily: 'aqua', // aqua-medium
         color: '#828282'
     },
