@@ -34,7 +34,9 @@ export default function RecipeScreen({route,navigation}:{route:any,navigation:an
         </Text>
         <View>
           <TagList tags={categories} />
-          <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableWithoutFeedback onPress={() => {
+            navigation.navigate('ProfileInfoScreen',{user_id:author.id})
+          }}>
             <View style={styles.author}>
               <Image source={{ uri: authorAvatar }} style={styles.avatar} />
               <Text style={styles.authorName}>{author.name}</Text>

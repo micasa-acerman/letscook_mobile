@@ -13,6 +13,7 @@ import RecipeScreen from '../screens/RecipeScreen';
 import MyRecipesScreen from '../screens/MyRecipesScreen';
 import DialogsScreen from '../screens/DialogsScreen';
 import ChatScreen from '../screens/ChatScreen';
+import ProfileInfoScreen from '../screens/ProfileInfoScreen';
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -29,6 +30,7 @@ export default function BottomTabNavigator() {
         options={{
           tabBarIcon: ({ color }) => <TabBarIcon name="ios-home" color={color}/>,
         }}
+        
       />
       <BottomTab.Screen
         name="Catalog"
@@ -69,6 +71,11 @@ function TabHomeNavigation() {
         name="RecipeScreen"
         component={RecipeScreen}
         options={{ headerTitle:'Recipe'}}
+      />
+      <TabCatalogStack.Screen
+        name="ProfileInfoScreen"
+        component={ProfileInfoScreen}
+        options={{ headerTitle: 'Profile Info' }}
       />
     </TabHomeStack.Navigator>
   );
