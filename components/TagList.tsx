@@ -1,18 +1,24 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler'
-import { Category } from '../api';
+import Category from '../models/Category';
 
 
-
-export default function TagList({tags}:{tags:Array<Category>}) {
+interface Params {
+  tags:Array<Category>,
+  onSelect?: (category:Category)=>void
+}
+export default function TagList({tags,onSelect}:Params) {
     const Tag = ({item}: {item:Category})=>{
         return (
           <TouchableHighlight
             underlayColor="transparent"
             activeOpacity={0.8}
             style={styles.tagContainer}
-            onPress={()=>{}}
+            onPress={()=>{
+              if(onSelect)
+                onSelect(item)
+            }}
           >
             <Text style={styles.tagText}>{item.name}</Text>
           </TouchableHighlight>
