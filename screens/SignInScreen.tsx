@@ -65,6 +65,7 @@ export default function SignInScreen({navigation}:{navigation:any}) {
         onChangeText={(text) => setPassword(text)}
         placeholder={"Password"}
         icon={require("../assets/images/ic_password.png")}
+        secureTextEntry={true}
         padding={20}
       >
         {password}
