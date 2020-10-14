@@ -20,8 +20,7 @@ export default function PostComponent({post}:{post:Post}) {
 
 const styles = StyleSheet.create({
     inner:{
-        width: 164,
-        marginRight: 10
+        flex: 1
     },
     image:{
         width: 164,
