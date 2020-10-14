@@ -13,11 +13,14 @@ export type BottomTabParamList = {
 export type TabHomeParamList = {
   TabHomeScreen: undefined;
   RecipeScreen: undefined;
+  ProfileInfoScreen: undefined;
 };
 
 export type TabCatalogParamList = {
   TabCatalogScreen: undefined;
   SignInScreen: undefined;
+  ProfileInfoScreen: undefined;
+  ShowRecipesScreen: undefined;
 };
 
 export type TabProfileParamList = {
@@ -29,4 +32,5 @@ export type TabProfileParamList = {
   FollowerScreen: undefined;
   FollowingScreen: undefined;
   RecipeScreen: undefined;
+  ProfileInfoScreen: undefined;
 };

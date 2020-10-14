@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { FlatList, TouchableHighlight } from 'react-native-gesture-handler'
 import PostComponent from '../components/PostComponent'
 import Post from '../models/Post'
 import REST from '../api'
-import { View } from '../components/Themed'
 export default function MyRecipesScreen({route,navigation}:{route:any,navigation:any}) {
-    const { authorId }: { authorId: string } = route.params;
+  
     const [posts, setPosts] = useState<Array<Post>>([])
 
     useEffect(() => {
-      REST.getPosts(authorId)
+      if(route.params.title){
+        console.log('TITLE',route.params.title);
+        navigation.setOptions({ title: "XKTY" });
+      }
+      REST.getPosts(route.params.query)
         .then((posts) => setPosts(posts))
         .catch((ex) => console.log(ex))
     }, [])
@@ -21,20 +24,17 @@ export default function MyRecipesScreen({route,navigation}:{route:any,navigation
 
     const renderItem = ({item}:{item:Post})=>{
         return (
-          <TouchableHighlight
-            underlayColor="transparent"
-            activeOpacity={0.8}
-            onPress={() => onPress(item)}
-            style={styles.item}
-          >
-            <PostComponent post={item} />
-          </TouchableHighlight>
+          <View style={styles.renderContainer}>
+            <TouchableHighlight
+              underlayColor="transparent"
+              activeOpacity={0.8}
+              onPress={() => onPress(item)}
+            >
+              <PostComponent post={item} />
+            </TouchableHighlight>
+          </View>
         );
     }
-    return (
-      <>
-      </>
-    )
     return (
       <View style={styles.container}>
         <FlatList
@@ -51,9 +51,13 @@ export default function MyRecipesScreen({route,navigation}:{route:any,navigation
 
 const styles = StyleSheet.create({
   container:{
-    alignItems:"center",
+    padding: 8,
+    flex: 1,
+    backgroundColor: '#fff'
   },
-  item:{
-    marginBottom: 10
+  
+  renderContainer:{
+    flex: 0.5,
+    margin: 8
   }
 })
