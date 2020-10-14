@@ -36,6 +36,7 @@ export default function TabHomeScreen({navigation}:{navigation:any}) {
         <ScrollView style={styles.container}>
           {data.map((it) => (
             <SliderPostsScreen
+              key={it.name}
               data={it}
               onPress={(post) => navigation.navigate("RecipeScreen", { post })}
             />
