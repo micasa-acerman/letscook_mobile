@@ -1,15 +1,9 @@
+import AsyncStorage from "@react-native-community/async-storage";
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { BackHandler, Image, StyleSheet, Text, View } from "react-native";
 import { FlatList, TouchableHighlight } from "react-native-gesture-handler";
 import REST from "../api";
-
-interface ProfileItemType {
-  key: string;
-  title: string;
-  icon: any;
-  navigate: string;
-  intent?: any;
-}
+import ProfileItemType from "../models/ProfileItemType";
 
 export default function ProfileScreen({ navigation }: { navigation: any }) {
   const [name, setName] = useState("");
@@ -57,28 +51,31 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
       key: "logout",
       title: "Log out",
       icon: require("../assets/images/ic_logout.png"),
-      navigate: "",
+      navigate: "SignInScreen",
+      logout: true,
     },
   ];
 
   const ProfileItem = ({ item }: { item: ProfileItemType }) => {
     return (
-      <>
-        <TouchableHighlight
-          style={styles.listTouchable}
-          activeOpacity={0.8}
-          underlayColor="#eaeaea"
-          onPress={() => {
+      <TouchableHighlight
+        style={styles.listTouchable}
+        activeOpacity={0.8}
+        underlayColor="#eaeaea"
+        onPress={() => {
+          if (item.logout) {
+            navigation.popToTop()
+          } else {
             if (item.intent) navigation.navigate(item.navigate, item.intent!);
             else navigation.navigate(item.navigate);
-          }}
-        >
-          <View style={styles.listWrap}>
-            <Image style={styles.listIcon} source={item.icon} />
-            <Text style={styles.listText}>{item.title}</Text>
-          </View>
-        </TouchableHighlight>
-      </>
+          }
+        }}
+      >
+        <View style={styles.listWrap}>
+          <Image style={styles.listIcon} source={item.icon} />
+          <Text style={styles.listText}>{item.title}</Text>
+        </View>
+      </TouchableHighlight>
     );
   };
 

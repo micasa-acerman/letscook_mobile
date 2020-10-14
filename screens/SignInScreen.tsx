@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, ImageBackground, StyleSheet,Text, Alert, AsyncStorage } from 'react-native'
 import LCButton, { ButtonStyle } from '../components/LCButton'
 import TextField from '../components/TextField'
@@ -16,13 +16,17 @@ export default function SignInScreen({navigation}:{navigation:any}) {
 
   const [username, setUsername] = useState("admin");
   const [password, setPassword] = useState("546813");
+  useEffect(()=>{
+    AsyncStorage.getItem('token').then(token=>{
+      if(token)
+        navigation.push('BottomNavBar');
+    })
 
+  },[])
   function attemptSignIn() {
     setIsLoading(true)
     REST.signIn(username, password)
       .then((data) => {
-        console.info('Log In',data.token);
-        
         AsyncStorage.multiSet([
           ["token", data.token!],
           ["display_name", data.user_display_name!],
@@ -30,7 +34,7 @@ export default function SignInScreen({navigation}:{navigation:any}) {
           ["user_nicename", data.user_nicename!],
         ]);
         setIsLoading(false)
-        navigation.navigate("BottomNavBar");
+        navigation.push("BottomNavBar");
       })
       .catch((ex: AxiosError) => {
         console.error(ex);
