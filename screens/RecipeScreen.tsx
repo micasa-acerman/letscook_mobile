@@ -1,19 +1,30 @@
-import React, { useState } from 'react'
-import { Dimensions, Image, StyleSheet, Text, View } from 'react-native'
-import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import AutoHeightWebView from 'react-native-autoheight-webview'
-import TagList from '../components/TagList';
-import Category from '../models/Category';
-import Post from '../models/Post';
+import React, { useEffect, useState } from "react";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import {
+  ScrollView,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
+import AutoHeightWebView from "react-native-autoheight-webview";
+import TagList from "../components/TagList";
+import Category from "../models/Category";
+import Post from "../models/Post";
 
 const jsInject = `
     document.addEventListener('DOMContentLoaded',()=>{
       window.postMessage(document.documentElement.scrollHeight)
     });
     true;
-    `
+    `;
 
-export default function RecipeScreen({route,navigation}:{route:any,navigation:any}) {
+export default function RecipeScreen({
+  route,
+  navigation,
+}: {
+  route: any;
+  navigation: any;
+}) {
+
+
   const { post }: { post: Post } = route.params;
   const media = post["_embedded"]["wp:featuredmedia"];
   const imageSrc: string = media
@@ -21,10 +32,14 @@ export default function RecipeScreen({route,navigation}:{route:any,navigation:an
     : "";
   const content = `
       ${post.content.rendered}`;
-  const author = post["_embedded"]['author'][0]
+  const author = post["_embedded"]["author"][0];
   const authorAvatar = author.simple_local_avatar["96"];
-  const categories:Array<Category> = post["_embedded"]['wp:term'][0]
-  
+  const categories: Array<Category> = post["_embedded"]["wp:term"][0];
+
+  useEffect(()=>{
+    navigation.setOptions({ title: post.title.rendered });
+  },[])
+
   return (
     <ScrollView contentContainerStyle={styles.scroll}>
       <Image source={{ uri: imageSrc }} style={styles.image} />
@@ -33,10 +48,19 @@ export default function RecipeScreen({route,navigation}:{route:any,navigation:an
           {post.title.rendered}
         </Text>
         <View>
-          <TagList tags={categories} />
-          <TouchableWithoutFeedback onPress={() => {
-            navigation.navigate('ProfileInfoScreen',{user_id:author.id})
-          }}>
+          <TagList tags={categories} onSelect={(item)=>{
+            navigation.navigate("ShowRecipesScreen", {
+              query: {
+                categories: item.id,
+              },
+              title: item.name
+            });
+          }} />
+          <TouchableWithoutFeedback
+            onPress={() => {
+              navigation.navigate("ProfileInfoScreen", { user_id: author.id });
+            }}
+          >
             <View style={styles.author}>
               <Image source={{ uri: authorAvatar }} style={styles.avatar} />
               <Text style={styles.authorName}>{author.name}</Text>
@@ -62,7 +86,7 @@ export default function RecipeScreen({route,navigation}:{route:any,navigation:an
             {
               href: "cssfileaddress",
               type: "text/css",
-              rel: "stylesheet", 
+              rel: "stylesheet",
             },
           ]}
           source={{
@@ -76,18 +100,18 @@ export default function RecipeScreen({route,navigation}:{route:any,navigation:an
 }
 
 const styles = StyleSheet.create({
-  author:{
-    flexDirection: 'row',
-    alignItems: 'center'
+  author: {
+    flexDirection: "row",
+    alignItems: "center",
   },
-  authorName:{
-    color: '#858585'
+  authorName: {
+    color: "#858585",
   },
   avatar: {
     width: 32,
     height: 32,
     borderRadius: 16,
-    marginRight: 6
+    marginRight: 6,
   },
   scroll: {
     flexGrow: 1,

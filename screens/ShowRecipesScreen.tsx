@@ -4,17 +4,20 @@ import { FlatList, TouchableHighlight } from 'react-native-gesture-handler'
 import PostComponent from '../components/PostComponent'
 import Post from '../models/Post'
 import REST from '../api'
+import Loading from '../components/Loading'
 export default function MyRecipesScreen({route,navigation}:{route:any,navigation:any}) {
-  
+    const [load, setLoad] = useState(true)
     const [posts, setPosts] = useState<Array<Post>>([])
 
     useEffect(() => {
       if(route.params.title){
-        console.log('TITLE',route.params.title);
-        navigation.setOptions({ title: "XKTY" });
+        navigation.setOptions({ title: route.params.title });
       }
       REST.getPosts(route.params.query)
-        .then((posts) => setPosts(posts))
+        .then((posts) => {
+          setPosts(posts)
+          setLoad(false) 
+        })
         .catch((ex) => console.log(ex))
     }, [])
 
@@ -35,18 +38,20 @@ export default function MyRecipesScreen({route,navigation}:{route:any,navigation
           </View>
         );
     }
-    return (
-      <View style={styles.container}>
-        <FlatList
-          numColumns={2}
-          showsHorizontalScrollIndicator={false}
-          renderItem={renderItem}
-          data={posts}
-          keyExtractor={item => String(item.id)}
-          onEndReached={() => console.log("end reach")}
-        />
-      </View>
-    );
+    if (load) return <Loading />;
+    else
+      return (
+        <View style={styles.container}>
+          <FlatList
+            numColumns={2}
+            showsHorizontalScrollIndicator={false}
+            renderItem={renderItem}
+            data={posts}
+            keyExtractor={(item) => String(item.id)}
+            onEndReached={() => console.log("end reach")}
+          />
+        </View>
+      );
 }
 
 const styles = StyleSheet.create({
