@@ -8,10 +8,11 @@ interface TextFieldProps {
   placeholder?:string,
   padding?:number,
   children?:string,
+  secureTextEntry?:boolean,
   onChangeText?:(text: string) => void
 }
 
-function TextField({icon,placeholder='Placeholder',padding=20,children='',onChangeText}:TextFieldProps) {
+function TextField({icon,placeholder='Placeholder',padding=20,children='',onChangeText,secureTextEntry=false}:TextFieldProps) {
     return (
       <View style={{ paddingTop: padding, paddingBottom: padding }}>
         <View style={styles.formGroup}>
@@ -23,6 +24,7 @@ function TextField({icon,placeholder='Placeholder',padding=20,children='',onChan
             underlineColorAndroid="transparent"
             value={children}
             onChangeText={onChangeText}
+          secureTextEntry={secureTextEntry}
           ></TextInput>
         </View>
         <View style={styles.divider}></View>
