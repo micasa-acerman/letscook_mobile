@@ -1,10 +1,14 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, Slider, StyleSheet, Text, View } from 'react-native'
 import { FlatList, ScrollView, TouchableHighlight } from 'react-native-gesture-handler'
 import Post from '../models/Post'
+import SliderData from '../models/SlideData'
 import PostComponent from './PostComponent'
-
-export default function SliderPosts({posts,title,onPress}:{posts:Array<Post>,title:string,onPress:(post:Post)=>void}) {
+interface Params{
+  data:SliderData,
+  onPress:(post:Post)=>void
+}
+export default function SliderPosts({data,onPress}:Params) {
     const renderItem = ({item}:{item:Post})=>{
         return (
           <TouchableHighlight
@@ -19,11 +23,11 @@ export default function SliderPosts({posts,title,onPress}:{posts:Array<Post>,tit
     }
     return (
       <View style={styles.container}>
-        <Text style={styles.category}>{title}</Text>
+        <Text style={styles.category}>{data.name}</Text>
         <FlatList
           horizontal={true}
           showsHorizontalScrollIndicator={false}
-          data={posts}
+          data={data.items}
           renderItem={renderItem}
           keyExtractor={(p) => String(p.id)}
         />
@@ -42,7 +46,6 @@ const styles = StyleSheet.create({
     },
     container:{
         marginTop: 22,
-        marginBottom: 22,
     },
     category:{
         color: '#454545',

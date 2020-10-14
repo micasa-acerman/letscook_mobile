@@ -5,17 +5,28 @@ import REST from '../api';
 import Loading from '../components/Loading';
 
 import SliderPostsScreen from '../components/SliderPosts';
-import { Text, View } from '../components/Themed';
 import Post from '../models/Post';
+import SliderData from '../models/SlideData';
 
 export default function TabHomeScreen({navigation}:{navigation:any}) {
-  const [data, setData] = React.useState<Array<Post>>([]);
+  const [data, setData] = React.useState<Array<SliderData>>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   React.useEffect(() => {
-    REST.getPosts().then((payload) => {
+    REST.getTags()
+      .then(tags=>{
+        return Promise.all(tags.map(async tag=>{
+          let posts = await REST.getPosts({
+            tags: tag.id
+          })
+          return {
+            name:tag.name,
+            items:posts
+          }
+        }))
+    }).then(payload=>{
       setData(payload);
       setIsLoading(false)
-    });
+    })
   }, []);
 
   if (isLoading) return <Loading />;
@@ -23,15 +34,16 @@ export default function TabHomeScreen({navigation}:{navigation:any}) {
     if (data.length) {
       return (
         <ScrollView style={styles.container}>
-          <SliderPostsScreen
-            posts={data}
-            title={"Recommended"}
-            onPress={(post) => navigation.navigate("RecipeScreen", { post })}
-          />
+          {data.map((it) => (
+            <SliderPostsScreen
+              data={it}
+              onPress={(post) => navigation.navigate("RecipeScreen", { post })}
+            />
+          ))}
         </ScrollView>
       );
     } else {
-      return <Text>Loading...</Text>;
+      return <Loading />
     }
   }
 }

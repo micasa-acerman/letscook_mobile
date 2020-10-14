@@ -5,12 +5,14 @@ import {
   GET_DIALOGS,
   GET_MY_INFO,
   GET_POSTS_URL,
+  GET_TAGS,
   SIGN_IN_URL,
 } from "../constants/Common";
 import AuthData from "../models/AuthData";
 import Dialog from "../models/Dialog";
 import Message from "../models/Message";
 import Post from "../models/Post";
+import Tag from "../models/Tag";
 import User from "../models/User";
 
 export default class REST {
@@ -111,7 +113,15 @@ export default class REST {
     });
     return response.data;
   }
-
+  static async getTags(): Promise<Array<Tag>> {
+    const token = await REST.getToken();
+    const response = await Axios.request<Array<Tag>>({
+      url: GET_TAGS,
+      method: "GET",
+    });
+    return response.data;
+  }
+  
   private static getToken(): Promise<string | null> {
     return AsyncStorage.getItem("token");
   }
