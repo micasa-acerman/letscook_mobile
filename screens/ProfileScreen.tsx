@@ -64,7 +64,9 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
         underlayColor="#eaeaea"
         onPress={() => {
           if (item.logout) {
-            navigation.popToTop()
+            AsyncStorage.clear().then(()=>{
+              navigation.popToTop()
+            })
           } else {
             if (item.intent) navigation.navigate(item.navigate, item.intent!);
             else navigation.navigate(item.navigate);
