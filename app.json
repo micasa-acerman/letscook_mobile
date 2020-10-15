@@ -27,7 +27,7 @@
     "android": {
       "package": "com.micasa.letscook",
       "splash": {
-        "backgroundColor": "#EB5757"
+        "backgroundColor": "#fff"
       }
     }
   }
