@@ -37,19 +37,19 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     flexDirection: "row",
     alignItems: "stretch",
-    marginBottom: 8
+    marginBottom: 8,
   },
   icon: {
     width: 28,
     height: 28,
   },
   input: {
-    marginLeft: 10,
+    paddingLeft: 10,
     fontSize: 20,
     color: "#eaeaea",
     borderWidth: 0,
     fontFamily: 'aqua',
-    alignSelf:"stretch"
+    flex: 1
   },
   divider: {
     height: 1,
