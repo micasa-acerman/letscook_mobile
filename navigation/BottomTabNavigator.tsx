@@ -83,7 +83,7 @@ function TabHomeNavigation() {
       <TabHomeStack.Screen
         name="TabHomeScreen"
         component={HomeScreen}
-        options={{ headerTitle: "Home" }}
+        options={{ headerTitle: "Home",headerLeft:null }}
       />
       <TabHomeStack.Screen name="RecipeScreen" component={RecipeScreen} />
       <TabCatalogStack.Screen
@@ -108,7 +108,7 @@ function TabCatalogNavigation() {
       <TabCatalogStack.Screen
         name="TabCatalogScreen"
         component={CatalogScreen}
-        options={{ headerTitle: "Catalog" }}
+        options={{ headerTitle: "Catalog",headerLeft:null }}
       />
       <TabCatalogStack.Screen
         name="ShowRecipesScreen"
@@ -125,7 +125,7 @@ function TabProfileNavigation() {
       <TabProfileStack.Screen
         name="TabProfileScreen"
         component={ProfileScreen}
-        options={{ headerTitle: "Profile" }}
+        options={{ headerTitle: "Profile",headerLeft:null }}
       />
       <TabProfileStack.Screen
         name="AboutScreen"
