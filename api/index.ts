@@ -1,17 +1,24 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import Axios from "axios";
+import { Platform } from "react-native";
 import {
   GET_CATEGORIES,
   GET_DIALOGS,
+  GET_MEDIA,
   GET_MY_INFO,
   GET_POSTS_URL,
   GET_TAGS,
+  GET_USERS,
   SIGN_IN_URL,
+  SIGN_UP_URL,
 } from "../constants/Common";
 import AuthData from "../models/AuthData";
+import Category from "../models/Category";
 import Dialog from "../models/Dialog";
+import Media from "../models/Media";
 import Message from "../models/Message";
 import Post from "../models/Post";
+import SignUpData from "../models/SignUpData";
 import Tag from "../models/Tag";
 import User from "../models/User";
 
@@ -120,6 +127,61 @@ export default class REST {
       method: "GET",
     });
     return response.data;
+  }
+  static async sendMedia(uri:string,token?:string|null):Promise<Media> {
+    if(!token)
+      token = await REST.getToken();
+    console.log("sendMedia",token);    
+    const fd = new FormData();
+    const name = uri.slice(1+uri.lastIndexOf('/'))
+    const extension = uri.slice(1+uri.lastIndexOf('.'))
+    console.log("NAME",name,extension);    
+    fd.append('file',{
+      uri: uri,
+      type: `image/${extension}`,
+      name: name,
+    });
+    
+    const response = await Axios.request<Promise<Media>>({
+      url: GET_MEDIA,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'content-type': 'multipart/form-data',
+      },
+      data:fd
+    });
+    return response.data;
+  }
+  
+  static async signUp(username:string,password:string,email:string): Promise<SignUpData> {
+    const response = await Axios.request<SignUpData>({
+      url: SIGN_UP_URL,
+      method: "POST",
+      data:{
+        username,
+        password,
+        email
+      }
+    });
+    return response.data
+  }
+  static async attachMedia(user_id:number,media_id:number,token?:string|null): Promise<SignUpData> {
+    if(!token)
+      token = await REST.getToken();
+    const response = await Axios.request<SignUpData>({
+      url: `${GET_USERS}/${user_id}`,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data:{
+        "simple_local_avatar":{
+          "media_id": media_id
+        }
+      }
+    });
+    return response.data
   }
   
   private static getToken(): Promise<string | null> {

@@ -2,6 +2,7 @@ export type RootStackParamList = {
   Root: undefined;
   BottomNavBar: undefined;
   NotFound: undefined;
+  SignUp:undefined;
 };
 
 export type BottomTabParamList = {
@@ -14,6 +15,7 @@ export type TabHomeParamList = {
   TabHomeScreen: undefined;
   RecipeScreen: undefined;
   ProfileInfoScreen: undefined;
+  ShowRecipesScreen: undefined;
 };
 
 export type TabCatalogParamList = {
@@ -33,4 +35,5 @@ export type TabProfileParamList = {
   FollowingScreen: undefined;
   RecipeScreen: undefined;
   ProfileInfoScreen: undefined;
+  SignInScreen:undefined;
 };

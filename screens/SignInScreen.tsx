@@ -8,14 +8,21 @@ import { NavigationContainerProps, NavigationHelpers, NavigationProp } from '@re
 import Loading from '../components/Loading'
 import ServerError from '../models/ServerError'
 import REST from '../api'
+import { grantPermissions } from '../constants/Common'
 
 
 
 export default function SignInScreen({navigation}:{navigation:any}) {
   const [isLoading, setIsLoading] = useState(false)
-
   const [username, setUsername] = useState("admin");
   const [password, setPassword] = useState("546813");
+  useEffect(()=>{
+    grantPermissions()
+      .then(flag=>{
+        console.log('Grant',flag);
+      })
+  },[])
+
   useEffect(()=>{
     AsyncStorage.getItem('token').then(token=>{
       if(token)
@@ -74,6 +81,7 @@ export default function SignInScreen({navigation}:{navigation:any}) {
       >
         {password}
       </TextField>
+      
       <View style={styles.actionContainer}>
         <LCButton
           containerStyle={styles.action}
@@ -83,8 +91,10 @@ export default function SignInScreen({navigation}:{navigation:any}) {
         >
           Sign in
         </LCButton>
-        <LCButton type={ButtonStyle.Link} containerStyle={styles.action}>
-          Forgot password?
+        <LCButton type={ButtonStyle.Link} containerStyle={styles.action} onClick={()=>{
+          navigation.navigate('SignUp')
+        }}>
+          Sign up
         </LCButton>
       </View>
     </ImageBackground>
