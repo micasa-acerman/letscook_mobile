@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { View, ImageBackground, StyleSheet,Text, Alert, AsyncStorage } from 'react-native'
 import LCButton, { ButtonStyle } from '../components/LCButton'
-import TextField from '../components/TextField'
+import LoginTextField from '../components/LoginTextField'
 import { AxiosError } from 'axios'
-import { StackNavigationProp } from '@react-navigation/stack'
-import { NavigationContainerProps, NavigationHelpers, NavigationProp } from '@react-navigation/native'
 import Loading from '../components/Loading'
 import ServerError from '../models/ServerError'
 import REST from '../api'
@@ -64,15 +62,15 @@ export default function SignInScreen({navigation}:{navigation:any}) {
       style={styles.image}
     >
       <Text style={styles.title}>Let's Cook</Text>
-      <TextField
+      <LoginTextField
         onChangeText={(text) => setUsername(text)}
         placeholder={"Login"}
         icon={require("../assets/images/ic_login.png")}
         padding={20}
       >
         {username}
-      </TextField>
-      <TextField
+      </LoginTextField>
+      <LoginTextField
         onChangeText={(text) => setPassword(text)}
         placeholder={"Password"}
         icon={require("../assets/images/ic_password.png")}
@@ -80,7 +78,7 @@ export default function SignInScreen({navigation}:{navigation:any}) {
         padding={20}
       >
         {password}
-      </TextField>
+      </LoginTextField>
       
       <View style={styles.actionContainer}>
         <LCButton

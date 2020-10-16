@@ -11,7 +11,7 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import LCButton, { ButtonStyle } from "../components/LCButton";
-import TextField from "../components/TextField";
+import TextField from "../components/LoginTextField";
 import REST from "../api";
 import Loading from "../components/Loading";
 
@@ -38,9 +38,11 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
   const sendData = async () => {
     if (!username && !password && !email) {
       Alert.alert("Incorrect fill data", "Please, fill fields");
+      return
     }
     if(!image){
       Alert.alert("Incorrect fill data", "Please, choose image");
+      return
     }
     try {
       setLoad(true)
