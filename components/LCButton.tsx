@@ -9,7 +9,7 @@ export enum ButtonStyle {
 }
 
 interface ButtonProps {
-    children:string,
+    children?:string,
     type?:ButtonStyle,
     containerStyle?:ViewStyle,
     textStyle?:TextStyle,
