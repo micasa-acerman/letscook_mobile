@@ -37,4 +37,6 @@ export type TabProfileParamList = {
   ProfileInfoScreen: undefined;
   SignInScreen:undefined;
   ProfileSettingScreen: undefined;
+  CreateRecipeScreen: undefined;
+  DirectionsRecipeScreen: undefined;
 };

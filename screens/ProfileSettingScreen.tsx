@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Image, ImageBackground, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LCButton from "../components/LCButton";
@@ -13,7 +20,7 @@ export default function ProfileSettingScreen({ route }: { route: any }) {
   const user: User = route.params.user;
   const [displayName, setDisplayName] = useState(user.name);
   const [password, setPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("");
   const [load, setLoad] = useState(false);
   const [image, setImage] = useState(user.simple_local_avatar.full);
   const pickImage = async () => {
@@ -25,37 +32,37 @@ export default function ProfileSettingScreen({ route }: { route: any }) {
     });
 
     if (!result.cancelled) {
-      setLoad(true)
+      setLoad(true);
       REST.sendMedia(result.uri)
         .then((media) => REST.attachMedia(user.id, media.id))
         .then(() => {
-            setLoad(false)
-            setImage(result.uri)
+          setLoad(false);
+          setImage(result.uri);
         })
         .catch((ex) => console.error(ex));
     }
   };
   useEffect(() => {
-      return () => {
-        route.params.setLoad(true)
-      }
-  }, [])
-  const  updateProfileData = async ()=>{
-      if(!displayName){
-        Alert.alert("Incorrect fill data", "Please, fill fields");
-        return
-      }
-      try{
-        setLoad(true)
-        await REST.updateProfile(user.id,displayName)
-        if(password.length && newPassword.length)
-            await REST.changePassword(password,newPassword)
-      }catch(ex){
-        console.error(ex);
-      }finally{
-        setLoad(false)
-      }
-  }
+    return () => {
+      route.params.setLoad(true);
+    };
+  }, []);
+  const updateProfileData = async () => {
+    if (!displayName) {
+      Alert.alert("Incorrect fill data", "Please, fill fields");
+      return;
+    }
+    try {
+      setLoad(true);
+      await REST.updateProfile(user.id, displayName);
+      if (password.length && newPassword.length)
+        await REST.changePassword(password, newPassword);
+    } catch (ex) {
+      console.error(ex);
+    } finally {
+      setLoad(false);
+    }
+  };
   if (load) return <Loading />;
   else
     return (
@@ -92,7 +99,12 @@ export default function ProfileSettingScreen({ route }: { route: any }) {
             >
               {newPassword}
             </TextField>
-            <LCButton containerStyle={{ marginTop: 30 }} onClick={updateProfileData}>Save</LCButton>
+            <LCButton
+              containerStyle={{ marginTop: 30 }}
+              onClick={updateProfileData}
+            >
+              Save
+            </LCButton>
           </View>
         </ImageBackground>
       </ScrollView>

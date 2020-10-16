@@ -19,10 +19,10 @@ import DialogsScreen from "../screens/DialogsScreen";
 import ChatScreen from "../screens/ChatScreen";
 import ProfileInfoScreen from "../screens/ProfileInfoScreen";
 import ShowRecipesScreen from "../screens/ShowRecipesScreen";
-import RootNavigation from '../navigation';
+import RootNavigation from "../navigation";
 import ProfileSettingScreen from "../screens/ProfileSettingScreen";
-
-
+import CreateRecipeScreen from "../screens/CreateRecipeScreen";
+import DirectionsRecipeScreen from "../screens/DirectionsRecipeScreen";
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -84,7 +84,7 @@ function TabHomeNavigation() {
       <TabHomeStack.Screen
         name="TabHomeScreen"
         component={HomeScreen}
-        options={{ headerTitle: "Home",headerLeft:null }}
+        options={{ headerTitle: "Home", headerLeft: null }}
       />
       <TabHomeStack.Screen name="RecipeScreen" component={RecipeScreen} />
       <TabCatalogStack.Screen
@@ -109,11 +109,21 @@ function TabCatalogNavigation() {
       <TabCatalogStack.Screen
         name="TabCatalogScreen"
         component={CatalogScreen}
-        options={{ headerTitle: "Catalog",headerLeft:null }}
+        options={{ headerTitle: "Catalog", headerLeft: null }}
       />
       <TabCatalogStack.Screen
         name="ShowRecipesScreen"
         component={ShowRecipesScreen}
+      />
+      <TabProfileStack.Screen
+        name="CreateRecipeScreen"
+        component={CreateRecipeScreen}
+        options={{ headerTitle: "Create recipe" }}
+      />
+      <TabProfileStack.Screen
+        name="DirectionsRecipeScreen"
+        component={DirectionsRecipeScreen}
+        options={{ headerTitle: "Directions" }}
       />
     </TabCatalogStack.Navigator>
   );
@@ -126,7 +136,7 @@ function TabProfileNavigation() {
       <TabProfileStack.Screen
         name="TabProfileScreen"
         component={ProfileScreen}
-        options={{ headerTitle: "Profile",headerLeft:null }}
+        options={{ headerTitle: "Profile", headerLeft: null }}
       />
       <TabProfileStack.Screen
         name="AboutScreen"
@@ -153,6 +163,16 @@ function TabProfileNavigation() {
         name="ProfileSettingScreen"
         component={ProfileSettingScreen}
         options={{ headerTitle: "Account setting" }}
+      />
+      <TabProfileStack.Screen
+        name="CreateRecipeScreen"
+        component={CreateRecipeScreen}
+        options={{ headerTitle: "Create recipe" }}
+      />
+      <TabProfileStack.Screen
+        name="DirectionsRecipeScreen"
+        component={DirectionsRecipeScreen}
+        options={{ headerTitle: "Directions" }}
       />
       <TabProfileStack.Screen name="ChatScreen" component={ChatScreen} />
     </TabProfileStack.Navigator>

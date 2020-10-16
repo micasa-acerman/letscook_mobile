@@ -56,9 +56,26 @@ export default class REST {
       return response.data;
     });
   }
+  static async createPosts(title:string,content:string,category_id:number|string): Promise<Array<Post>> {
+    const token = await REST.getToken();
+    const response = await Axios.request<Array<Post>>({
+      url: GET_POSTS_URL,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data:{
+        title,
+        content,
+        categories: [
+          category_id
+        ]
+      }
+    })
+    return response.data;
+  }
   static async getMyInfo(): Promise<User> {
     const token = await REST.getToken();
-    console.log("Token", token);
 
     return Axios.request<User>({
       url: GET_MY_INFO,

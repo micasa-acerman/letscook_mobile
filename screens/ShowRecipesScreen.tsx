@@ -1,18 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { FlatList, TouchableHighlight } from 'react-native-gesture-handler'
+import { FlatList, TouchableHighlight, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import PostComponent from '../components/PostComponent'
 import Post from '../models/Post'
 import REST from '../api'
 import Loading from '../components/Loading'
+import { Ionicons } from '@expo/vector-icons'
 export default function MyRecipesScreen({route,navigation}:{route:any,navigation:any}) {
     const [load, setLoad] = useState(true)
     const [posts, setPosts] = useState<Array<Post>>([])
 
+
+
+  useLayoutEffect(() => {
+    if(route.params.title){
+      navigation.setOptions({ title: route.params.title });
+    }
+    navigation.setOptions({headerRight: () => (
+      <TouchableWithoutFeedback onPress={()=>{navigation.navigate('CreateRecipeScreen')}} style={{ marginRight: 20 }}>
+        <Ionicons size={30}  name='ios-add' color='#000' />
+      </TouchableWithoutFeedback>
+    )})
+  }, [])
+
     useEffect(() => {
-      if(route.params.title){
-        navigation.setOptions({ title: route.params.title });
-      }
       REST.getPosts(route.params.query)
         .then((posts) => {
           setPosts(posts)
