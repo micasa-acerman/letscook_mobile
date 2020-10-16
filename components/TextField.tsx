@@ -1,60 +1,50 @@
-import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { TextInput } from "react-native-gesture-handler";
 
-
-interface TextFieldProps {
-  icon:any,
-  placeholder?:string,
-  padding?:number,
-  children?:string,
+export default function TextField({
+  children="",
+  onChangeText=()=>{},
+  labelText="",
+  secureTextEntry=false,
+  placeholder=""
+}: {
+  children?: string,
+  onChangeText?: (text: string) => void,
+  labelText?:string,
   secureTextEntry?:boolean,
-  onChangeText?:(text: string) => void
-}
-
-function TextField({icon,placeholder='Placeholder',padding=20,children='',onChangeText,secureTextEntry=false}:TextFieldProps) {
-    return (
-      <View style={{ paddingTop: padding, paddingBottom: padding }}>
-        <View style={styles.formGroup}>
-          <Image source={icon} style={styles.icon} />
-          <TextInput
-            style={styles.input}
-            placeholder={placeholder}
-            placeholderTextColor='#aeaeae'
-            underlineColorAndroid="transparent"
-            value={children}
-            onChangeText={onChangeText}
-          secureTextEntry={secureTextEntry}
-          ></TextInput>
-        </View>
-        <View style={styles.divider}></View>
-      </View>
-    );
+  placeholder?:string
+}) {
+  return (
+    <View style={styles.container} >
+      <Text style={styles.label}>{labelText}</Text>
+      <TextInput
+        secureTextEntry={secureTextEntry}
+        style={styles.input}
+        value={children}
+        placeholder={placeholder}
+        onChangeText={onChangeText}
+      ></TextInput>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-  formGroup: {
-    marginLeft: 4,
-    flexDirection: "row",
-    alignItems: "stretch",
-    marginBottom: 8,
+  container: {
+    marginTop: 8
   },
-  icon: {
-    width: 28,
-    height: 28,
+  label: {
+    fontSize: 16,
+    fontFamily: 'aqua-medium',
+    color: '#828282',
+    marginBottom: 8
   },
   input: {
-    paddingLeft: 10,
-    fontSize: 20,
-    color: "#eaeaea",
-    borderWidth: 0,
-    fontFamily: 'aqua',
-    flex: 1
-  },
-  divider: {
-    height: 1,
-    backgroundColor: "#D2D2D2",
+    padding: 10,
+    color: "#828282",
+    borderColor: '#e0e0e0',
+    borderWidth: 1,
+    
+    borderRadius: 4,
   },
 });
-
-export default TextField
