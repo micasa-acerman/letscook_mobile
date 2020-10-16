@@ -11,6 +11,7 @@ import {
   GET_USERS,
   SIGN_IN_URL,
   SIGN_UP_URL,
+  CHANGE_PASSWORD
 } from "../constants/Common";
 import AuthData from "../models/AuthData";
 import Category from "../models/Category";
@@ -121,7 +122,6 @@ export default class REST {
     return response.data;
   }
   static async getTags(): Promise<Array<Tag>> {
-    const token = await REST.getToken();
     const response = await Axios.request<Array<Tag>>({
       url: GET_TAGS,
       method: "GET",
@@ -183,7 +183,36 @@ export default class REST {
     });
     return response.data
   }
-  
+  static async updateProfile(user_id:number,name:string,...extra:any) {
+    const token = await REST.getToken();
+    const response = await Axios.request({
+      url: `${GET_USERS}/${user_id}`,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data:{
+        name,
+        ...extra
+      }
+    });
+    return response.data
+  }
+  static async changePassword(password:string,new_password:string) {
+    const token = await REST.getToken();
+    const response = await Axios.request({
+      url: CHANGE_PASSWORD,
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data:{
+        password,
+        new_password
+      }
+    });
+    return response.data
+  }
   private static getToken(): Promise<string | null> {
     return AsyncStorage.getItem("token");
   }

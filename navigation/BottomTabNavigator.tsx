@@ -20,6 +20,7 @@ import ChatScreen from "../screens/ChatScreen";
 import ProfileInfoScreen from "../screens/ProfileInfoScreen";
 import ShowRecipesScreen from "../screens/ShowRecipesScreen";
 import RootNavigation from '../navigation';
+import ProfileSettingScreen from "../screens/ProfileSettingScreen";
 
 
 
@@ -147,6 +148,11 @@ function TabProfileNavigation() {
         name="SignInScreen"
         component={RootNavigation}
         options={{ headerTitle: "Dialogs" }}
+      />
+      <TabProfileStack.Screen
+        name="ProfileSettingScreen"
+        component={ProfileSettingScreen}
+        options={{ headerTitle: "Account setting" }}
       />
       <TabProfileStack.Screen name="ChatScreen" component={ChatScreen} />
     </TabProfileStack.Navigator>

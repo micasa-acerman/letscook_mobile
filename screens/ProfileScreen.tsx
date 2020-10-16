@@ -1,28 +1,29 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import React, { useEffect, useState } from "react";
 import { BackHandler, Image, StyleSheet, Text, View } from "react-native";
-import { FlatList, TouchableHighlight } from "react-native-gesture-handler";
+import { FlatList, TouchableHighlight, TouchableOpacity } from "react-native-gesture-handler";
 import REST from "../api";
+import Loading from "../components/Loading";
 import ProfileItemType from "../models/ProfileItemType";
+import User from "../models/User";
+import {CapalizeString} from '../constants/Common'
+
+
 
 export default function ProfileScreen({ navigation }: { navigation: any }) {
-  const [name, setName] = useState("");
-  const [role, setRole] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [authorId, setAuthorId] = useState(0);
+  const [user, setUser] = useState<User>()
+  const [load, setLoad] = useState(true)
+
   useEffect(() => {
+    if(load){
     REST.getMyInfo()
-      .then((data) => {
-        setName(data.nickname);
-        setAvatar(data.simple_local_avatar.full);
-        setRole(
-          data.roles[0].charAt(0).toUpperCase() +
-            data.roles[0].slice(1).toLowerCase()
-        );
-        setAuthorId(data.id);
+      .then((payload) => {
+        setUser(payload)
+        setLoad(false)
       })
       .catch((e) => console.error(e));
-  }, []);
+    }
+  }, [load]);
   const PROFILE_ITEMS: Array<ProfileItemType> = [
     {
       key: "recipes",
@@ -31,7 +32,7 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
       navigate: "MyRecipesScreen",
       intent: {
         query: {
-          author: authorId,
+          author: user?.id,
         },
       },
     },
@@ -80,25 +81,28 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
       </TouchableHighlight>
     );
   };
-
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Image style={styles.avatar} source={{ uri: avatar }} />
-        <View style={styles.profileInfo}>
-          <Text style={styles.profileName}>{name}</Text>
-          <Text style={styles.profileRole}>{role}</Text>
+  if(load)
+    return (<Loading />)
+  else
+    return (
+      <View style={styles.container}>
+        <TouchableOpacity style={styles.header} onPress={()=>navigation.navigate('ProfileSettingScreen',{user,setLoad})}>
+          
+          <Image style={styles.avatar} source={{ uri: user?.simple_local_avatar.full }} />
+          <View style={styles.profileInfo}>
+            <Text style={styles.profileName}>{user?.name ?? 'Unkown'}</Text>
+            <Text style={styles.profileRole}>{CapalizeString(user?.roles[0] ?? 'User')}</Text>
+          </View>
+        </TouchableOpacity>
+        <View style={styles.listContainer}>
+          <FlatList
+            data={PROFILE_ITEMS}
+            renderItem={ProfileItem}
+            keyExtractor={(item) => item.title}
+          />
         </View>
       </View>
-      <View style={styles.listContainer}>
-        <FlatList
-          data={PROFILE_ITEMS}
-          renderItem={ProfileItem}
-          keyExtractor={(item) => item.title}
-        />
-      </View>
-    </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
@@ -117,7 +121,7 @@ const styles = StyleSheet.create({
   listTouchable: {
     paddingTop: 10,
     paddingBottom: 10,
-    paddingLeft: 4,
+    paddingLeft: 20,
   },
   listText: {
     fontSize: 18,
@@ -126,10 +130,7 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: "#fff",
-    marginLeft: 12,
-    marginRight: 12,
-    marginTop: 18,
-    padding: 12,
+    marginTop: 20,
   },
   avatar: {
     width: 82,
@@ -137,10 +138,12 @@ const styles = StyleSheet.create({
     borderRadius: 41,
   },
   profileInfo: {
-    marginLeft: 14,
+    marginLeft: 12,
+    marginRight: 12,
   },
   header: {
     flexDirection: "row",
+    marginLeft: 16,
   },
   profileName: {
     fontSize: 20,
