@@ -30,5 +30,6 @@ const styles = StyleSheet.create({
         color: '#676767',
         fontFamily: 'aqua',
         fontSize: 16,
+        marginTop: 4
     },
 })
