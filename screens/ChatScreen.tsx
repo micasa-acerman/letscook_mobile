@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     textContainer:{
         backgroundColor: '#ffffff',
         shadowColor: '#000000',
-        shadowOpacity: 1,
+        shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 3,
         padding: 6,
@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
         height: 34
     },
     listContainer:{
-        paddingTop: 16,
         paddingLeft: 8,
         paddingRight: 8
     },
@@ -132,7 +131,7 @@ const styles = StyleSheet.create({
         paddingBottom: 7,
         borderRadius: 15,
         backgroundColor:'#E5E5EA',
-        marginBottom: 8
+        marginTop: 6
     },
     messageMy:{
         alignSelf: 'flex-end',

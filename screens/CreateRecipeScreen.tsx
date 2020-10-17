@@ -6,6 +6,7 @@ import * as ImagePicker from "expo-image-picker";
 import LCButton from "../components/LCButton";
 import ListView from "../components/ListView";
 import Recipe from "../models/Recipe";
+import { ALLOW_MEDIA_EXTENSIONS } from "../constants/Common";
 
 export default function CreateRecipeScreen({navigation}:{navigation:any}) {
   const [recipe, setRecipe] = useState<Recipe>({
@@ -13,17 +14,21 @@ export default function CreateRecipeScreen({navigation}:{navigation:any}) {
     image_uri: "",
     ingredients: [],
     directions: [],
-    category_id: 0 
+    category_id: 0
   });
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
-
+    const extension = result.uri.match(/.(\w+)$/g)[0]
+    if(!ALLOW_MEDIA_EXTENSIONS.includes(extension)){
+      Alert.alert('Alert','This media extension not support')
+      return
+    }
     if (!result.cancelled) {
       setRecipe({ ...recipe, image_uri: result.uri });
     }

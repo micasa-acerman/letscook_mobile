@@ -15,6 +15,7 @@ import TextField from "../components/TextField";
 import User from "../models/User";
 import * as ImagePicker from "expo-image-picker";
 import REST from "../api";
+import { ALLOW_MEDIA_EXTENSIONS } from "../constants/Common";
 
 export default function ProfileSettingScreen({ route }: { route: any }) {
   const user: User = route.params.user;
@@ -25,12 +26,16 @@ export default function ProfileSettingScreen({ route }: { route: any }) {
   const [image, setImage] = useState(user.simple_local_avatar.full);
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
-
+    const extension = result.uri.matches(/.(\w+)$/g)[0]
+    if(!ALLOW_MEDIA_EXTENSIONS.includes(extension)){
+      Alert.alert('Alert','This media extension not support')
+      return
+    }
     if (!result.cancelled) {
       setLoad(true);
       REST.sendMedia(result.uri)

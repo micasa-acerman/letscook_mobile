@@ -7,6 +7,7 @@ import { Picker } from "@react-native-community/picker";
 import REST from "../api";
 import Loading from "../components/Loading";
 import Category from "../models/Category";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function DirectionsRecipeScreen({
   route,
@@ -15,19 +16,17 @@ export default function DirectionsRecipeScreen({
   route: any;
   navigation: any;
 }) {
-  const [recipe, setRecipe] = useState<Recipe>(route.params);
+const [recipe, setRecipe] = useState<Recipe>(route.params);
   const [load, setLoad] = useState(true);
   const [categories, setCategories] = useState<Array<Category>>([]);
   useEffect(() => {
     REST.getCategories().then((payload) => {
-      setCategories(payload);
       setLoad(false);
+      setCategories(payload);
     });
   }, []);
 
   const createRecipe = async () => {
-    console.log("Create Recipe");
-
     if (!recipe.category_id) {
       Alert.alert("Incorrect fill data", "Choose category");
       return;
@@ -36,32 +35,35 @@ export default function DirectionsRecipeScreen({
       Alert.alert("Incorrect fill data", "Please, fill recipe directions");
       return;
     }
+    setLoad(true);
     const content = `<h2>Ingredients</h2>
       <ul>
-      ${recipe.ingredients.map((it) => `<li>${it}</li>`)}
+      ${recipe.ingredients.map((it) => `<li>${it.replace(/\r\n/g,'')}</li>`)}
       </ul>
       <h2>Directions</h2>
       <ul>
         ${recipe.ingredients.map(
-          (it, i) => `<li><strong>STEP ${i + 1}</strong>&nbsp;${it}</li>`
+          (it, i) => `<li><strong>STEP ${i + 1}</strong>&nbsp;${it.replace(/\r\n/g,'')}</li>`
         )}
       </ul>`;
     try {
-      await REST.createPosts(recipe.name, content, recipe.category_id);
+      const media = await REST.sendMedia(recipe.image_uri)
+      const post = await REST.createPosts(recipe.name, content, recipe.category_id,media.id);
       Alert.alert(
-        "Alert",
-        `You have successfully created a recipe.
-      In the near future, our moderators will check the correctness of filling in your prescription data.`
+        "Notify",
+        `You have successfully created a recipe. 
+In the near future, our moderators will check the correctness of filling in your prescription data.`
       );
       navigation.pop(2);
     } catch (ex) {
       console.error(ex.response.data);
+      setLoad(false)
     }
   };
   if (load) return <Loading />;
   else
     return (
-      <View style={styles.root}>
+      <ScrollView style={styles.root}>
         <ListView
           data={recipe.directions}
           label="Directions"
@@ -91,15 +93,16 @@ export default function DirectionsRecipeScreen({
         <LCButton containerStyle={styles.action} onClick={createRecipe}>
           Create
         </LCButton>
-      </View>
+      </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
   root: {
-    marginTop: 20,
-    marginLeft: 16,
-    marginRight: 16,
+    paddingTop: 20,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingBottom: 20
   },
   action: {
     marginTop: 40,

@@ -28,7 +28,7 @@ export default function RecipeScreen({
   const { post }: { post: Post } = route.params;
   const media = post["_embedded"]["wp:featuredmedia"];
   const imageSrc: string = media
-    ? media[0].media_details.sizes.large.source_url
+    ? media[0].media_details.sizes.medium_large.source_url
     : "";
   const content = `
       ${post.content.rendered}`;
@@ -58,7 +58,7 @@ export default function RecipeScreen({
           }} />
           <TouchableWithoutFeedback
             onPress={() => {
-              navigation.navigate("ProfileInfoScreen", { user_id: author.id });
+              //navigation.navigate("ProfileInfoScreen", { user_id: author.id });
             }}
           >
             <View style={styles.author}>
@@ -92,6 +92,9 @@ export default function RecipeScreen({
           source={{
             html: content,
           }}
+          bounces={false}
+          scrollEnabled={false}
+          scrollEnabledWithZoomedin={false}
           scalesPageToFit={false}
         />
       </View>

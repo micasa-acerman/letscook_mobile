@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import React, { useEffect, useState } from "react";
-import { BackHandler, Image, StyleSheet, Text, View } from "react-native";
+import { BackHandler, Image, StyleSheet, Text, ToastAndroid, View } from "react-native";
 import { FlatList, TouchableHighlight, TouchableOpacity } from "react-native-gesture-handler";
 import REST from "../api";
 import Loading from "../components/Loading";
@@ -21,7 +21,12 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
         setUser(payload)
         setLoad(false)
       })
-      .catch((e) => console.error(e));
+      .catch((e) => {
+        AsyncStorage.clear().then(()=>{
+          navigation.popToTop()
+        })
+        console.error(e)
+      });
     }
   }, [load]);
   const PROFILE_ITEMS: Array<ProfileItemType> = [
@@ -63,11 +68,11 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
         style={styles.listTouchable}
         activeOpacity={0.8}
         underlayColor="#eaeaea"
-        onPress={() => {
+        onPress={async () => {
+          setLoad(true)
           if (item.logout) {
-            AsyncStorage.clear().then(()=>{
-              navigation.popToTop()
-            })
+            await AsyncStorage.clear()
+            navigation.popToTop()
           } else {
             if (item.intent) navigation.navigate(item.navigate, item.intent!);
             else navigation.navigate(item.navigate);
@@ -90,7 +95,7 @@ export default function ProfileScreen({ navigation }: { navigation: any }) {
           
           <Image style={styles.avatar} source={{ uri: user?.simple_local_avatar.full }} />
           <View style={styles.profileInfo}>
-            <Text style={styles.profileName}>{user?.name ?? 'Unkown'}</Text>
+            <Text style={styles.profileName} numberOfLines={1} lineBreakMode={'clip'}>{user?.name ?? 'Unkown'}</Text>
             <Text style={styles.profileRole}>{CapalizeString(user?.roles[0] ?? 'User')}</Text>
           </View>
         </TouchableOpacity>
@@ -150,6 +155,7 @@ const styles = StyleSheet.create({
     color: "#000000",
     fontFamily: "aqua",
     marginBottom: 2,
+    marginRight: 20
   },
   profileRole: {
     fontSize: 14,

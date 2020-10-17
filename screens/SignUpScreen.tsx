@@ -9,11 +9,12 @@ import {
   View,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 import LCButton, { ButtonStyle } from "../components/LCButton";
 import TextField from "../components/LoginTextField";
 import REST from "../api";
 import Loading from "../components/Loading";
+import { ALLOW_MEDIA_EXTENSIONS } from "../constants/Common";
 
 export default function SignUpScreen({ navigation }: { navigation: any }) {
   const [username, setUsername] = useState("koha092");
@@ -24,13 +25,17 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
 
-
+    const extension = result.uri.matches(/.(\w+)$/g)[0]
+    if(!ALLOW_MEDIA_EXTENSIONS.includes(extension)){
+      Alert.alert('Alert','This media extension not support')
+      return
+    }
     if (!result.cancelled) {
       setImage(result.uri);
     }
@@ -68,6 +73,7 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
         style={styles.background}
         source={require("../assets/images/sign_up.png")}
       >
+      <ScrollView style={{flex: 1}}>
         <SafeAreaView style={styles.container}>
           <TouchableOpacity onPress={pickImage}>
             {image ? (
@@ -121,6 +127,7 @@ export default function SignUpScreen({ navigation }: { navigation: any }) {
             </LCButton>
           </View>
         </SafeAreaView>
+          </ScrollView>
       </ImageBackground>
     );
 }
@@ -132,12 +139,12 @@ const styles = StyleSheet.create({
   },
   background: {
     flex: 1,
-    paddingTop: 100,
   },
   container: {
+    marginTop: 60,
     alignItems: "stretch",
-    paddingLeft: 32,
-    paddingRight: 32,
+    marginLeft: 32,
+    marginRight: 32
   },
   image: {
     borderRadius: 90,
