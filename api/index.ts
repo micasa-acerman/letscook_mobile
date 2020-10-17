@@ -56,7 +56,7 @@ export default class REST {
       return response.data;
     });
   }
-  static async createPosts(title:string,content:string,category_id:number|string): Promise<Array<Post>> {
+  static async createPosts(title:string,content:string,category_id:number|string,featured_media:number): Promise<Array<Post>> {
     const token = await REST.getToken();
     const response = await Axios.request<Array<Post>>({
       url: GET_POSTS_URL,
@@ -67,6 +67,7 @@ export default class REST {
       data:{
         title,
         content,
+        featured_media,
         categories: [
           category_id
         ]
