@@ -35,4 +35,4 @@ The layout and main prototypes of the application were developed in [figma](http
 If you are familiar with the process of creating a user interface, you can help the project. 
 Let me know by [email](mailto:chrimsonm@gmail.com) if you want to help the project.
 ## 👏 Contributing
-If you like Let's cook and want to help make it better then check out our discord server [contributing guide](https://discord.gg/guCkJz)!
+If you like Let's cook and want to help make it better then check out our discord server [contributing guide](https://discord.gg/guCkJz)! 
